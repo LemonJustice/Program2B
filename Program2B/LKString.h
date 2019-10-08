@@ -17,8 +17,8 @@ public:
 	const char* c_str();
 	void setEqualTo(const LKString& argStr);
 private:
-	const char* str;
 	int cap = 20;
+	char* str;
 	int end = 0;
 };
 

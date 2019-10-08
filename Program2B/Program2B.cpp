@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include "LKString.h"
 
 using namespace std;
 
