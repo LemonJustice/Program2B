@@ -5,26 +5,28 @@ LKString::LKString() {
 }
 
 LKString::LKString(const char* userStr) {
-	int i = 0;
-	for (i = 0; userStr[i] != '\0'; i++) {
+	str = new char[cap];
+	for (end = 0; userStr[end] != '\0'; end++) {
+		str[end] = userStr[end];
 	}
-	end = i;
-	str = new char[end, 0];
-	for (int i = 0; i < end; i++) {
-		str[i] = userStr[i];
-	}
+	str[end] = '\0';
 }
 
 void LKString::setEqualTo(const LKString& argStr) {
-	delete[] str;
-	int i = 0;
-	for (i = 0; argStr.str[i] != '\0'; i++) {
+	for (end = 0; argStr.str[end] != '\0'; end++) {
+		str[end] = argStr.str[end];
 	}
-	end = i;
-	str = new char[end, 0];
-	for (int i = 0; i < end; i++) {
-		str[i] = argStr.str[i];
+	str[end] = '\0';
+}
+
+
+//An overload used in the read function.
+void LKString::setEqualTo(const char* userStr) {
+	str = new char[cap];
+	for (end = 0; userStr[end] != '\0'; end++) {
+		str[end] = userStr[end];
 	}
+	str[end] = '\0';
 }
 
 
@@ -35,25 +37,24 @@ bool LKString::read(istream& istrm) {
 	//Checking if input is valid and working, both for file and cin
 	if (istrm.fail()) {
 		cout << "ERROR: Was not able to open and read file";
-		exit(1);
+		return false;
 	}
 	else if (istrm.bad()) {
 		cout << "ERROR: The input is corrupted";
-		exit(1);
+		return false;
 	}
 
-	while (!istrm.eof()) {
-		ch[index] = istrm.get();
-		index++;
-	}
+	istrm.getline(ch, 99, ' ');
 	
 	setEqualTo(ch);
+	
+	return true;
 }
 
 void LKString::write(ostream& ostrm) {
 	if (ostrm.fail()) {
 		cout << "ERROR: Was not able to open and write to file";
-		exit(1);
+		return;
 	}
 	
 	for (int i = 0; i < end; i++) {
@@ -77,7 +78,6 @@ int LKString::compareTo(const LKString& argStr) {
 		i++;
 	}
 }
-
 
 const char* LKString::c_str() {
 	return str;

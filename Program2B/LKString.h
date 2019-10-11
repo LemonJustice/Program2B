@@ -16,6 +16,7 @@ public:
 	int compareTo(const LKString& agrStr);
 	const char* c_str();
 	void setEqualTo(const LKString& argStr);
+	void setEqualTo(const char* argStr);
 private:
 	int cap = 20;
 	char* str;
