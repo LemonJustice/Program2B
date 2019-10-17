@@ -1,5 +1,7 @@
 #pragma once
 #include <istream>
+#include <fstream>
+
 using namespace std;
 #ifndef LKSTRING_H
 #define LKSTRING_H
