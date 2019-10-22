@@ -17,7 +17,7 @@ int main()
 
 	//This is reading the file into the LKStrings within the vector
 	for (word = 0; !fin.eof(); word++) {
-		myStrings[word].read(fin);
+		fin >> myStrings[word];
 	}
 	myStrings.resize(word);
 	
@@ -26,10 +26,10 @@ int main()
 	while (swapped) {
 		swapped = false;
 		for (int i = 1; i < word; i++) {
-			if (myStrings[i - 1].compareTo(myStrings[i]) == -1) {
+			if (myStrings[i - 1] > myStrings[i]) {
 				const char* temp = myStrings[i - 1].c_str();
-				myStrings[i - 1].setEqualTo(myStrings[i]);
-				myStrings[i].setEqualTo(temp);
+				myStrings[i - 1] = myStrings[i];
+				myStrings[i] = temp;
 
 				swapped = true;
 			}

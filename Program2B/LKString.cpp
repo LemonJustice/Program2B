@@ -3,7 +3,7 @@
 
 LKString::LKString() {
 }
-
+//string init constructor
 LKString::LKString(const char* userStr) {
 	str = new char[cap];
 	for (end = 0; userStr[end] != '\0'; end++) {
@@ -11,17 +11,27 @@ LKString::LKString(const char* userStr) {
 	}
 	str[end] = '\0';
 }
-
-void LKString::setEqualTo(const LKString& argStr) {
-	for (end = 0; argStr.str[end] != '\0'; end++) {
-		str[end] = argStr.str[end];
+//copy constructor
+LKString::LKString(const LKString & lkstr) {
+	delete[] str;
+	str = new char[lkstr.end];
+	for (end = 0; lkstr.str[end] != '\0'; end++) {
+		str[end] = lkstr.str[end];
 	}
 	str[end] = '\0';
 }
 
+void LKString::operator =(const LKString& lkstr) {
+	delete[] str;
+	str = new char[lkstr.end];
+	for (end = 0; lkstr.str[end] != '\0'; end++) {
+		str[end] = lkstr.str[end];
+	}
+	str[end] = '\0';
+}
 
 //An overload used in the read function.
-void LKString::setEqualTo(const char* userStr) {
+void LKString::operator =(const char* userStr) {
 	str = new char[cap];
 	for (end = 0; userStr[end] != '\0'; end++) {
 		str[end] = userStr[end];
@@ -29,8 +39,8 @@ void LKString::setEqualTo(const char* userStr) {
 	str[end] = '\0';
 }
 
-
-bool LKString::read(istream& istrm) {
+//Insertion overload
+bool operator >>(istream& istrm, LKString &lkstr) {
 	char ch[99];
 	int index = 0;
 	
@@ -46,32 +56,60 @@ bool LKString::read(istream& istrm) {
 
 	istrm.getline(ch, 99, ' ');
 	
-	setEqualTo(ch);
+	lkstr = ch;
 	
 	return true;
 }
 
-void LKString::write(ostream& ostrm) {
+//Extraction overload
+void operator <<(ostream& ostrm, LKString &lkstr) {
 	if (ostrm.fail()) {
 		cout << "ERROR: Was not able to open and write to file";
 		return;
 	}
 	
-	for (int i = 0; i < end; i++) {
-		ostrm << str[i];
+	for (int i = 0; i < lkstr.length(); i++) {
+		ostrm << lkstr[i];
 	}
 }
 
+//Equality operator overload
+bool LKString::operator ==(const LKString& lkstr) {
+	if (compareTo(lkstr) == 0)
+		return true;
+	else
+		return false;
+}
 
+//Greater than overload
+bool LKString::operator >(const LKString& lkstr) {
+	if (compareTo(lkstr) == 1)
+		return true;
+	else
+		return false;
+}
+
+//Less than overload
+bool LKString::operator <(const LKString& lkstr) {
+	if (compareTo(lkstr) == -1)
+		return true;
+	else
+		return false;
+}
+
+//Used in the operator overloads
 int LKString::compareTo(const LKString& argStr) {
 	int i = 0;
 	while (true) {
+		//If they are equal
 		if (str[i] == '\0' && argStr.str[i] == '\0') {
 			return 0;
 		}
+		//if *this is bigger than the parameter
 		else if (str[i] > argStr.str[i] || argStr.str[i] == '\0') {
 			return 1;
 		}
+		//if *this is smaller than the parameter
 		else if (str[i] < argStr.str[i] || str[i] == '\0') {
 			return -1;
 		}
@@ -79,6 +117,7 @@ int LKString::compareTo(const LKString& argStr) {
 	}
 }
 
+//Public accessor functions
 const char* LKString::c_str() {
 	return str;
 }
@@ -88,9 +127,21 @@ char LKString::at(int index) {
 	else
 		return '\0';
 }
+char LKString::/*Operator []*/operator [](int index) {
+	return str[index];
+}
+char LKString::/*Const Operator []*/operator [](int index) const {
+	return str[index];
+}
 int LKString::length() {
 	return end;
 }
 int LKString::capacity() {
 	return cap;
 }
+
+//destructor
+LKString::~LKString() {
+	delete[] str;
+}
+
