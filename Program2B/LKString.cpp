@@ -1,8 +1,9 @@
-#include <iostream>
+﻿#include <iostream>
 #include "LKString.h"
 
 LKString::LKString() {
 }
+
 //string init constructor
 LKString::LKString(const char* userStr) {
 	str = new char[cap];
@@ -11,6 +12,7 @@ LKString::LKString(const char* userStr) {
 	}
 	str[end] = '\0';
 }
+
 //copy constructor
 LKString::LKString(const LKString & lkstr) {
 	delete[] str;
@@ -21,6 +23,11 @@ LKString::LKString(const LKString & lkstr) {
 	str[end] = '\0';
 }
 
+  //___________________ //
+ // Operator Overloads //
+// ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾//
+
+
 void LKString::operator =(const LKString& lkstr) {
 	delete[] str;
 	str = new char[lkstr.end];
@@ -29,9 +36,8 @@ void LKString::operator =(const LKString& lkstr) {
 	}
 	str[end] = '\0';
 }
-
 //An overload used in the read function.
-void LKString::operator =(const char* userStr) {
+void LKString::operator =(const char* userStr) { 
 	str = new char[cap];
 	for (end = 0; userStr[end] != '\0'; end++) {
 		str[end] = userStr[end];
@@ -39,7 +45,6 @@ void LKString::operator =(const char* userStr) {
 	str[end] = '\0';
 }
 
-//Insertion overload
 bool operator >>(istream& istrm, LKString &lkstr) {
 	char ch[99];
 	int index = 0;
@@ -61,7 +66,6 @@ bool operator >>(istream& istrm, LKString &lkstr) {
 	return true;
 }
 
-//Extraction overload
 void operator <<(ostream& ostrm, LKString &lkstr) {
 	if (ostrm.fail()) {
 		cout << "ERROR: Was not able to open and write to file";
@@ -73,7 +77,6 @@ void operator <<(ostream& ostrm, LKString &lkstr) {
 	}
 }
 
-//Equality operator overload
 bool LKString::operator ==(const LKString& lkstr) {
 	if (compareTo(lkstr) == 0)
 		return true;
@@ -81,7 +84,6 @@ bool LKString::operator ==(const LKString& lkstr) {
 		return false;
 }
 
-//Greater than overload
 bool LKString::operator >(const LKString& lkstr) {
 	if (compareTo(lkstr) == 1)
 		return true;
@@ -89,7 +91,6 @@ bool LKString::operator >(const LKString& lkstr) {
 		return false;
 }
 
-//Less than overload
 bool LKString::operator <(const LKString& lkstr) {
 	if (compareTo(lkstr) == -1)
 		return true;
@@ -97,7 +98,6 @@ bool LKString::operator <(const LKString& lkstr) {
 		return false;
 }
 
-//Used in the operator overloads
 int LKString::compareTo(const LKString& argStr) {
 	int i = 0;
 	while (true) {
@@ -117,25 +117,33 @@ int LKString::compareTo(const LKString& argStr) {
 	}
 }
 
-//Public accessor functions
+  //__________________________ //
+ // Public Accessor Functions //
+// ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾//
+
+
 const char* LKString::c_str() {
 	return str;
 }
+
 char LKString::at(int index) {
 	if (index < end && index >= 0)
 		return str[index];
 	else
 		return '\0';
 }
+
 char LKString::/*Operator []*/operator [](int index) {
 	return str[index];
 }
 char LKString::/*Const Operator []*/operator [](int index) const {
 	return str[index];
 }
+
 int LKString::length() {
 	return end;
 }
+
 int LKString::capacity() {
 	return cap;
 }
