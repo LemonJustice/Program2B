@@ -1,7 +1,12 @@
 ﻿#include <iostream>
 #include "LKString.h"
 
+static int createdCount = 0;
+static int currentCount = 0;
+
 LKString::LKString() {
+	createdCount++;
+	currentCount++;
 }
 
 //string init constructor
@@ -11,6 +16,8 @@ LKString::LKString(const char* userStr) {
 		str[end] = userStr[end];
 	}
 	str[end] = '\0';
+	createdCount++;
+	currentCount++;
 }
 
 //copy constructor
@@ -21,6 +28,8 @@ LKString::LKString(const LKString & lkstr) {
 		str[end] = lkstr.str[end];
 	}
 	str[end] = '\0';
+	createdCount++;
+	currentCount++;
 }
 
   //___________________ //
@@ -28,24 +37,52 @@ LKString::LKString(const LKString & lkstr) {
 // ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾//
 
 
-void LKString::operator =(const LKString& lkstr) {
+LKString& LKString::operator =(const LKString& lkstr) {
 	delete[] str;
 	str = new char[lkstr.end];
 	for (end = 0; lkstr.str[end] != '\0'; end++) {
+		if (end > cap) {
+			char* tempStr = new char[cap *= 2];
+			for (int i = 0; i > cap / 2; i++) {
+				tempStr[i] = str[i];
+			}
+		}
 		str[end] = lkstr.str[end];
 	}
 	str[end] = '\0';
+	return *this;
 }
 //An overload used in the read function.
-void LKString::operator =(const char* userStr) { 
+LKString& LKString::operator =(const char* userStr) { 
 	str = new char[cap];
 	for (end = 0; userStr[end] != '\0'; end++) {
+		if (end > cap) {
+			char* tempStr = new char[cap *= 2];
+			for (int i = 0; i > cap / 2; i++) {
+				tempStr[i] = str[i];
+			}
+		}
 		str[end] = userStr[end];
 	}
 	str[end] = '\0';
+	return *this;
 }
 
-bool operator >>(istream& istrm, LKString &lkstr) {
+LKString& LKString::operator +(const LKString& lkstr) {
+	int addIndex;
+	for (addIndex = 0; lkstr[addIndex] != '\0'; addIndex++) {
+		if (addIndex + end > cap) {
+			char* tempStr = new char [cap *= 2];
+			for (int i = 0; i > cap / 2; i++) {
+				tempStr[i] = str[i];
+			}
+		}
+		str[addIndex + end] = lkstr[addIndex];
+	}
+	end += addIndex;
+}
+
+ostream& operator >>(istream& istrm, LKString &lkstr) {
 	char ch[99];
 	int index = 0;
 	
@@ -66,7 +103,7 @@ bool operator >>(istream& istrm, LKString &lkstr) {
 	return true;
 }
 
-void operator <<(ostream& ostrm, LKString &lkstr) {
+ostream& operator <<(ostream& ostrm, LKString &lkstr) {
 	if (ostrm.fail()) {
 		cout << "ERROR: Was not able to open and write to file";
 		return;
@@ -77,28 +114,28 @@ void operator <<(ostream& ostrm, LKString &lkstr) {
 	}
 }
 
-bool LKString::operator ==(const LKString& lkstr) {
+bool LKString::operator ==(const LKString& lkstr) const  {
 	if (compareTo(lkstr) == 0)
 		return true;
 	else
 		return false;
 }
 
-bool LKString::operator >(const LKString& lkstr) {
+bool LKString::operator >(const LKString& lkstr) const {
 	if (compareTo(lkstr) == 1)
 		return true;
 	else
 		return false;
 }
 
-bool LKString::operator <(const LKString& lkstr) {
+bool LKString::operator <(const LKString& lkstr) const {
 	if (compareTo(lkstr) == -1)
 		return true;
 	else
 		return false;
 }
 
-int LKString::compareTo(const LKString& argStr) {
+int LKString::compareTo(const LKString& argStr) const {
 	int i = 0;
 	while (true) {
 		//If they are equal
@@ -116,6 +153,7 @@ int LKString::compareTo(const LKString& argStr) {
 		i++;
 	}
 }
+
 
   //__________________________ //
  // Public Accessor Functions //
@@ -148,8 +186,18 @@ int LKString::capacity() {
 	return cap;
 }
 
+int LKString::getCurrentCount() {
+	return currentCount;
+}
+
+int LKString::getCreatedCount() {
+	return createdCount;
+}
+
 //destructor
 LKString::~LKString() {
 	delete[] str;
+	currentCount--;
 }
+
 

@@ -6,15 +6,17 @@ using namespace std;
 
 class LKString {
 public:
+	
 	LKString();
 	LKString(const char* agrStr);
 	LKString(const LKString & lkstr);
 
-	void operator =(const LKString& argStr);
-	void operator =(const char* argStr);
-	bool operator ==(const LKString& lkstr);
-	bool operator >(const LKString& lkstr);
-	bool operator <(const LKString& lkstr);
+	LKString& operator =(const LKString& argStr);
+	LKString& operator =(const char* argStr);
+	LKString& operator +(const LKString& lkstr);
+	bool operator ==(const LKString& lkstr) const;
+	bool operator >(const LKString& lkstr) const;
+	bool operator <(const LKString& lkstr) const;
 	char operator [](int index);
 	char operator [](int index) const;
 
@@ -22,17 +24,19 @@ public:
 	int length();
 	int capacity();
 	char at(int index);
+	int getCurrentCount();
+	int getCreatedCount();
 
 	~LKString();
 private:
-	int compareTo(const LKString& agrStr);
+	
+	int compareTo(const LKString& agrStr) const;
 
 	int cap = 20;
 	char* str;
 	int end = 0;
 };
-
-ostream& operator << (ostream& ostr, const LKString lkstr);
-istream& operator >> (istream& istr, const LKString lkstr);
+ostream& operator >>(istream& istrm, LKString& lkstr);
+ostream& operator <<(ostream& ostrm, LKString& lkstr);
 
 #endif
