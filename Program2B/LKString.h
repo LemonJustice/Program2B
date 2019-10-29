@@ -22,7 +22,6 @@ public:
 	const char* c_str();
 	int length();
 	int capacity();
-	void setCap(int newCap);
 	char at(int index);
 	int getCurrentCount();
 	int getCreatedCount();
@@ -36,7 +35,7 @@ private:
 	char* str;
 	int end = 0;
 };
-ostream& operator >>(istream& istrm, LKString& lkstr);
+istream& operator >>(istream& istrm, LKString& lkstr);
 ostream& operator <<(ostream& ostrm, LKString& lkstr);
 
 #endif

@@ -21,26 +21,28 @@ int main()
 		for (int word = 0; !fin.eof() || word > 5; word++) {
 			LKString temp;
 			fin >> temp;
-			jumbo = jumbo + temp;
+			cout << temp << endl;
+			//jumbo = jumbo + temp;
 		}
-		myStrings.push_back(jumbo);
+		system("pause");
+//		myStrings.push_back(jumbo);
+//	}
+//	myStrings.resize(stringCount);
+//	
+//	bool swapped = true;
+//
+//	while (swapped) {
+//		swapped = false;
+//		for (int i = 1; i < stringCount; i++) {
+//			if (myStrings[i - 1] > myStrings[i]) {
+//				const char* temp = myStrings[i - 1].c_str();
+//				myStrings[i - 1] = myStrings[i];
+//				myStrings[i] = temp;
+//
+//				swapped = true;
+//			}
+//			
+//		}
 	}
-	myStrings.resize(--stringCount);
-	
-	bool swapped = true;
-
-	while (swapped) {
-		swapped = false;
-		for (int i = 1; i < stringCount; i++) {
-			if (myStrings[i - 1] > myStrings[i]) {
-				const char* temp = myStrings[i - 1].c_str();
-				myStrings[i - 1] = myStrings[i];
-				myStrings[i] = temp;
-
-				swapped = true;
-			}
-			
-		}
-	}
-
+//system("pause");
 }

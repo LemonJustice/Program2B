@@ -11,9 +11,13 @@ LKString::LKString() {
 
 //string init constructor
 LKString::LKString(const char* userStr) {
+	for (end = 1; userStr[end-1] != '\0'; end++) {
+		if (end >= cap)
+			cap += 20;
+	}
 	str = new char[cap];
-	for (end = 0; userStr[end] != '\0'; end++) {
-		str[end] = userStr[end];
+	for (int i = 0; i <= end; i++) {
+		str[i] = userStr[i];
 	}
 	str[end] = '\0';
 	createdCount++;
@@ -22,9 +26,14 @@ LKString::LKString(const char* userStr) {
 
 //copy constructor
 LKString::LKString(const LKString & lkstr) {
-	cap = lkstr.cap;
-	for (end = 0; lkstr.str[end] != '\0'; end++) {
-		str[end] = lkstr.str[end];
+	for (end = 1; lkstr[end -1] != '\0'; end++) {
+		if (end >= cap)
+			cap += 20;
+	}
+	str = new char[cap];
+	*str = { '\0' };
+	for (int i = 0; i <= end; i++) {
+		str[i] = lkstr[i];
 	}
 	str[end] = '\0';
 	createdCount++;
@@ -40,14 +49,6 @@ LKString& LKString::operator =(const LKString& lkstr) {
 	delete[] str;
 	str = new char[lkstr.end];
 	for (end = 0; lkstr.str[end] != '\0'; end++) {
-		if (end > cap) {
-			char* tempStr = new char[cap *= 2];
-			for (int i = 0; i > end / 2; i++) {
-				tempStr[i] = str[i];
-			}
-			delete[] str;
-			str = tempStr;
-		}
 		str[end] = lkstr.str[end];
 	}
 	str[end] = '\0';
@@ -57,14 +58,6 @@ LKString& LKString::operator =(const LKString& lkstr) {
 LKString& LKString::operator =(const char* userStr) { 
 	str = new char[cap];
 	for (end = 0; userStr[end] != '\0'; end++) {
-		if (end > cap) {
-			char* tempStr = new char[cap *= 2];
-			for (int i = 0; i > end / 2; i++) {
-				tempStr[i] = str[i];
-			}
-			delete[] str;
-			str = tempStr;
-		}
 		str[end] = userStr[end];
 	}
 	str[end] = '\0';
@@ -72,51 +65,65 @@ LKString& LKString::operator =(const char* userStr) {
 }
 
 LKString& LKString::operator +(const LKString& lkstr) {
-	int addIndex;
-	for (addIndex = 0; lkstr[addIndex] != '\0'; addIndex++) {
-		if (addIndex + end > cap) {
-			char* tempStr = new char [cap *= 2];
-			for (int i = 0; i > end / 2; i++) {
-				tempStr[i] = str[i];
-			}
-			delete[] str;
-			str = tempStr;
-		}
-		str[addIndex + end] = lkstr[addIndex];
+	int addEnd;
+	for (addEnd = 1; lkstr[addEnd - 1] != '\0'; addEnd++) {
+		if (end + addEnd >= cap)
+			cap += 20;
 	}
-	end += addIndex;
+	str = new char[cap];
+	*str = { '\0' };
+	for (int i = 0; i <= end + addEnd; i++) {
+		str[end] = lkstr[end + addEnd];
+	}
+	str[end] = '\0';
+	return *this;
 }
 
-ostream& operator >>(istream& istrm, LKString &lkstr) {
-	char* ch;
+istream& operator >>(istream& istrm, LKString &lkstr) {
+	char ch[99] = {'\0'};
 	int index = 0;
 	
 	//Checking if input is valid and working, both for file and cin
 	if (istrm.fail()) {
 		cout << "ERROR: Was not able to open and read file";
-		return;
+		return istrm;
 	}
 	else if (istrm.bad()) {
 		cout << "ERROR: The input is corrupted";
-		return;
+		return istrm;
 	}
 
-	istrm.getline(ch, 99, ' ');
+	bool gotStr = 0;
+	while (gotStr == false && !istrm.eof()) {
+		int letter = 0;
+		istrm.get(ch[letter]);
+		while (ch[letter] != ' ' && ch[letter] != '\n' && letter < 98) {
+			letter++;
+			istrm.get(ch[letter]);
+		}
+		// Removes the space after the string ends
+		ch[letter] = '\0';
+		gotStr = true;
+
+		if (ch[0] == '\0' || ch[0] == '\n')
+			gotStr = false;
+	}
 
 	lkstr = ch;
 	
-	return;
+	return istrm;
 }
 
 ostream& operator <<(ostream& ostrm, LKString &lkstr) {
 	if (ostrm.fail()) {
 		cout << "ERROR: Was not able to open and write to file";
-		return;
+		return ostrm;
 	}
 	
 	for (int i = 0; i < lkstr.length(); i++) {
 		ostrm << lkstr[i];
 	}
+	return ostrm;
 }
 
 bool LKString::operator ==(const LKString& lkstr) const  {
@@ -190,9 +197,6 @@ int LKString::length() {
 int LKString::capacity() {
 	return cap;
 }
-void LKString::setCap(int newCap) {
-	cap = newCap;
-}
 
 int LKString::getCurrentCount() {
 	return currentCount;
@@ -204,8 +208,8 @@ int LKString::getCreatedCount() {
 
 //destructor
 LKString::~LKString() {
-	delete[] str;
 	currentCount--;
+	delete[] str;
 }
 
 
