@@ -6,7 +6,6 @@ using namespace std;
 
 class LKString {
 public:
-	
 	LKString();
 	LKString(const char* agrStr);
 	LKString(const LKString & lkstr);
@@ -23,6 +22,7 @@ public:
 	const char* c_str();
 	int length();
 	int capacity();
+	void setCap(int newCap);
 	char at(int index);
 	int getCurrentCount();
 	int getCreatedCount();

@@ -22,8 +22,7 @@ LKString::LKString(const char* userStr) {
 
 //copy constructor
 LKString::LKString(const LKString & lkstr) {
-	delete[] str;
-	str = new char[lkstr.end];
+	cap = lkstr.cap;
 	for (end = 0; lkstr.str[end] != '\0'; end++) {
 		str[end] = lkstr.str[end];
 	}
@@ -43,9 +42,11 @@ LKString& LKString::operator =(const LKString& lkstr) {
 	for (end = 0; lkstr.str[end] != '\0'; end++) {
 		if (end > cap) {
 			char* tempStr = new char[cap *= 2];
-			for (int i = 0; i > cap / 2; i++) {
+			for (int i = 0; i > end / 2; i++) {
 				tempStr[i] = str[i];
 			}
+			delete[] str;
+			str = tempStr;
 		}
 		str[end] = lkstr.str[end];
 	}
@@ -58,9 +59,11 @@ LKString& LKString::operator =(const char* userStr) {
 	for (end = 0; userStr[end] != '\0'; end++) {
 		if (end > cap) {
 			char* tempStr = new char[cap *= 2];
-			for (int i = 0; i > cap / 2; i++) {
+			for (int i = 0; i > end / 2; i++) {
 				tempStr[i] = str[i];
 			}
+			delete[] str;
+			str = tempStr;
 		}
 		str[end] = userStr[end];
 	}
@@ -73,9 +76,11 @@ LKString& LKString::operator +(const LKString& lkstr) {
 	for (addIndex = 0; lkstr[addIndex] != '\0'; addIndex++) {
 		if (addIndex + end > cap) {
 			char* tempStr = new char [cap *= 2];
-			for (int i = 0; i > cap / 2; i++) {
+			for (int i = 0; i > end / 2; i++) {
 				tempStr[i] = str[i];
 			}
+			delete[] str;
+			str = tempStr;
 		}
 		str[addIndex + end] = lkstr[addIndex];
 	}
@@ -83,24 +88,24 @@ LKString& LKString::operator +(const LKString& lkstr) {
 }
 
 ostream& operator >>(istream& istrm, LKString &lkstr) {
-	char ch[99];
+	char* ch;
 	int index = 0;
 	
 	//Checking if input is valid and working, both for file and cin
 	if (istrm.fail()) {
 		cout << "ERROR: Was not able to open and read file";
-		return false;
+		return;
 	}
 	else if (istrm.bad()) {
 		cout << "ERROR: The input is corrupted";
-		return false;
+		return;
 	}
 
 	istrm.getline(ch, 99, ' ');
-	
+
 	lkstr = ch;
 	
-	return true;
+	return;
 }
 
 ostream& operator <<(ostream& ostrm, LKString &lkstr) {
@@ -184,6 +189,9 @@ int LKString::length() {
 
 int LKString::capacity() {
 	return cap;
+}
+void LKString::setCap(int newCap) {
+	cap = newCap;
 }
 
 int LKString::getCurrentCount() {

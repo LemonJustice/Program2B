@@ -10,22 +10,28 @@ using namespace std;
 
 int main()
 {
-	vector<LKString> myStrings(100);
+	vector<LKString> myStrings(0);
 	ifstream fin;
-	fin.open("infile2.txt");
-	int word = 0;
+	fin.open("infile3.txt");
+	int stringCount = 0;
 
 	//This is reading the file into the LKStrings within the vector
-	for (word = 0; !fin.eof(); word++) {
-		fin >> myStrings[word];
+	for (stringCount = 0; !fin.eof(); stringCount++) {
+		LKString jumbo;
+		for (int word = 0; !fin.eof() || word > 5; word++) {
+			LKString temp;
+			fin >> temp;
+			jumbo = jumbo + temp;
+		}
+		myStrings.push_back(jumbo);
 	}
-	myStrings.resize(word);
+	myStrings.resize(--stringCount);
 	
 	bool swapped = true;
 
 	while (swapped) {
 		swapped = false;
-		for (int i = 1; i < word; i++) {
+		for (int i = 1; i < stringCount; i++) {
 			if (myStrings[i - 1] > myStrings[i]) {
 				const char* temp = myStrings[i - 1].c_str();
 				myStrings[i - 1] = myStrings[i];
