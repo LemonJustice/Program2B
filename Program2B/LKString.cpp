@@ -16,6 +16,7 @@ LKString::LKString(const char* userStr) {
 			cap += 20;
 	}
 	str = new char[cap];
+	*str = { '\0' };
 	for (int i = 0; i <= end; i++) {
 		str[i] = userStr[i];
 	}
