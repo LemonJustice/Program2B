@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include "LKString.h"
 #include <vector>
@@ -10,7 +11,7 @@ using namespace std;
 
 int main()
 {
-	vector<LKString> myStrings(1);
+	vector<LKString> myStrings;
 	ifstream fin;
 	fin.open("infile3.txt");
 	int stringCount = 0;
@@ -18,16 +19,15 @@ int main()
 	//This is reading the file into the LKStrings within the vector
 	for (stringCount = 0; !fin.eof(); stringCount++) {
 		LKString jumbo;
-		for (int word = 0; !fin.eof() && word > 5; word++) {
+		for (int word = 0; !fin.eof() && word < 5; word++) {
 			LKString temp;
 			fin >> temp;
-			cout << temp << endl;
 			jumbo = jumbo + temp;
 		}
-		system("pause");
+		cout << jumbo;
 		myStrings.push_back(jumbo);
+		system("pause");
 	}
-	myStrings.resize(stringCount);
 	
 	bool swapped = true;
 
@@ -44,5 +44,10 @@ int main()
 			
 		}
 	}
-system("pause");
+	for (int i = 0; i < stringCount; i++) {
+		cout << myStrings[i] << setw(10) << right
+			<< myStrings[i].length() << ":" 
+			<< myStrings[i].capacity() << endl;
+	}
+	system("pause");
 }

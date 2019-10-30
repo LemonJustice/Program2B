@@ -19,10 +19,10 @@ public:
 	char operator [](int index);
 	char operator [](int index) const;
 
-	const char* c_str();
+	const char* c_str() const;
 	int length();
 	int capacity();
-	char at(int index);
+	char at(int index) const;
 	int getCurrentCount();
 	int getCreatedCount();
 
