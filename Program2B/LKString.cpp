@@ -14,7 +14,7 @@ LKString::LKString() {
 //string init constructor
 LKString::LKString(const char* userStr) {
 	for (end = 0; userStr[end] != '\0'; end++) {
-		if (end >= cap)
+		if (end + 1 >= cap)
 			cap += 20;
 	}
 	str = new char[cap];
@@ -30,7 +30,7 @@ LKString::LKString(const char* userStr) {
 //copy constructor
 LKString::LKString(const LKString & lkstr) {
 	for (end = 0; lkstr.at(end) != '\0'; end++) {
-		if (end >= cap)
+		if (end + 1 >= cap)
 			cap += 20;
 	}
 	str = new char[cap];
@@ -70,35 +70,32 @@ LKString& LKString::operator =(const char* userStr) {
 }
 
 LKString& LKString::operator +(const LKString& lkstr) {
-	int addEnd;
-	for (addEnd = 0; lkstr[addEnd] != '\0'; addEnd++) {
-		if (end + addEnd >= cap)
-			cap += 20;
-	}
-	//moving the string to a bigger array
-	char* temp = new char[cap];
 
-	for (int i = 0; i < end; i++) {
-		temp[i] = str[i];
+	//Finds out how long my string is gonna be
+		//might need to add 1 or 2 to this length or subtract or two
+	int newStrLength = end + lkstr.length();
+	char* tempStr= new char[newStrLength];
+
+	//copies this into it
+	int index = 0;
+	for (; index < end; index++) {
+		tempStr[index] = str[index];
 	}
-	temp[end] = '\0';
+
+	//copies the second string into it
+	for (; index < newStrLength; index++) {
+		tempStr[index] = lkstr[index];
+	}
+
 	delete[] str;
-	str = new char[cap];
-	for (int i = 0; i < end; i++) {
-		str[i] = temp[i];
-	}
-	delete[] temp;
-	//appending
-	for (int i = 0; i < addEnd; i++) {
-		str[end + i] = lkstr[i];
-	}
-	end += addEnd;
-	str[end] = '\0';
+	str = tempStr;
+
 	return *this;
 }
 
+//the issue probably lies here
 istream& operator >>(istream& istrm, LKString &lkstr) {
-	char ch[99] = {'\0'};
+	char ch[200] = {'\0'};
 	int index = 0;
 	
 	//Checking if input is valid and working, both for file and cin
@@ -115,7 +112,7 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 	while (gotStr == false && !istrm.eof()) {
 		int letter = 0;
 		istrm.get(ch[letter]);
-		while (ch[letter] != ' ' && ch[letter] != '\n' && letter < 98) {
+		while (ch[letter] != ' ' && ch[letter] != '\n' && letter < 199) {
 			letter++;
 			istrm.get(ch[letter]);
 		}
@@ -126,9 +123,7 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 		if (ch[0] == '\0' || ch[0] == '\n' || ch[0] == ' ')
 			gotStr = false;
 	}
-
 	lkstr = ch;
-	
 	return istrm;
 }
 
@@ -208,7 +203,7 @@ char LKString::/*Const Operator []*/operator [](int index) const {
 	return str[index];
 }
 
-int LKString::length() {
+int LKString::length() const {
 	return end;
 }
 

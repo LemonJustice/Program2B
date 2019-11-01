@@ -17,16 +17,19 @@ int main()
 	int stringCount = 0;
 
 	//This is reading the file into the LKStrings within the vector
-	for (stringCount = 0; !fin.eof(); stringCount++) {
+	for (; !fin.eof(); stringCount++) {
 		LKString jumbo;
 		for (int word = 0; !fin.eof() && word < 5; word++) {
 			LKString temp;
 			fin >> temp;
+			//if (temp == "ThisIsMyAmazinglyLongStringToMakeYourExtractionOperatorWorkCorrectly.") {
+			//	cout << " ";
+			//}
 			jumbo = jumbo + temp;
 		}
-		cout << jumbo;
+		cout << jumbo << endl;
 		myStrings.push_back(jumbo);
-		system("pause");
+	//	system("pause");
 	}
 	
 	bool swapped = true;

@@ -20,7 +20,7 @@ public:
 	char operator [](int index) const;
 
 	const char* c_str() const;
-	int length();
+	int length() const;
 	int capacity();
 	char at(int index) const;
 	int getCurrentCount();
