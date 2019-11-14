@@ -1,11 +1,10 @@
-// Class Name: KnightsTour
+// Class Name: LKString: Program 2B
 // Author: Liam Kikuchi
 // Section: S
 // Description: This program uses a self created class that
 // stores strings in char arrays to read a file - separating 
 // words by spaces and new line characters - then write a
 // sorted version from lower to higher ascii values.
-
 
 #include <iostream>
 #include <iomanip>
@@ -57,15 +56,35 @@ int main()
 	fout.open("output.txt");
 	for (int strNum = 1; strNum <= word; strNum++) {
 		fout << setw(13);
+		cout << setw(13);
 		myStrings[strNum - 1].write(fout);
-		if (strNum % 6 == 0)
+		cout << myStrings[strNum - 1].c_str();
+		if (strNum % 6 == 0) {
 			fout << endl;
+			cout << endl;
+		}
 	}
 	fout.close();
-	cout << "Written data to output.txt" << endl;
+	cout << endl << "Written data to output.txt" << endl;
 	system("pause");
 }
 
 
-// Written data to output.txt
-// Press any key to continue . . .
+//Program output
+
+/*          I            I            I      Martian           Or         Such
+         They         Were            a            a            a            a
+    amazingly           an           an          and      animal.           as
+          ask          ask          be.        began        began        body?
+        brain        busy.      compare        could          did   directing,
+        each,       engine         felt        first          for          his
+          how        human  impossible.           in           in  intelligent
+  intelligent     ironclad         life        lower    machines,        man's
+  mechanisms?         much           my       myself       myself           or
+        rules      ruling,         seem       seemed          sit         sits
+        steam          the          the         they         they        thing
+       things         time           to           to           to           to
+           to       using,          was         what       within        would
+
+Written data to output.txt
+Press any key to continue . . .*/
