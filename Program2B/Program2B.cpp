@@ -1,5 +1,12 @@
-// Program2B.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// Class Name: LKString: Program 3
+// Author: Liam Kikuchi
+// Section: S
+// Description: This program uses a self created class that
+// imitates strings - by use of char arrays - to read a file. 
+// It stores 5 words from the file into each LKString, and
+// sorts it based on ascii value. The program also keeps track of
+// the amount of LKstrings created, as well as currently constructed
+// - and not yet destructed - LKstrings.
 
 #include <iostream>
 #include <iomanip>
