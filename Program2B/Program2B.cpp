@@ -22,14 +22,9 @@ int main()
 		for (int word = 0; !fin.eof() && word < 5; word++) {
 			LKString temp;
 			fin >> temp;
-			//if (temp == "ThisIsMyAmazinglyLongStringToMakeYourExtractionOperatorWorkCorrectly.") {
-			//	cout << " ";
-			//}
 			jumbo = jumbo + temp;
 		}
-		cout << jumbo << endl;
 		myStrings.push_back(jumbo);
-	//	system("pause");
 	}
 	
 	bool swapped = true;
@@ -38,7 +33,7 @@ int main()
 		swapped = false;
 		for (int i = 1; i < stringCount; i++) {
 			if (myStrings[i - 1] > myStrings[i]) {
-				const char* temp = myStrings[i - 1].c_str();
+				LKString temp = myStrings[i - 1].c_str();
 				myStrings[i - 1] = myStrings[i];
 				myStrings[i] = temp;
 
@@ -47,10 +42,40 @@ int main()
 			
 		}
 	}
+	cout << endl;
 	for (int i = 0; i < stringCount; i++) {
-		cout << myStrings[i] << setw(10) << right
+		cout << setw(100) << left << myStrings[i]
 			<< myStrings[i].length() << ":" 
 			<< myStrings[i].capacity() << endl;
 	}
+	cout << endl << "Total amount of strings constructed: " << myStrings[0].getCreatedCount()
+		<< endl << "Amount of strings currently alive: " << myStrings[0].getCurrentCount()
+		<< endl << endl;
+
 	system("pause");
 }
+
+/*
+
+Ibegantocomparethe                                                                                  18:20
+Ifeltwasimpossible.Or                                                                               21:40
+Theyseemedamazinglybusy.I                                                                           25:40
+andrulesinhisbody?                                                                                  18:20
+anironcladorasteam                                                                                  18:20
+asaman'sbrainsits                                                                                   17:20
+askmyselfforthefirst                                                                                20:40
+begantoaskmyselfwhat                                                                                20:40
+didaMartiansitwithin                                                                                20:40
+each,ruling,directing,using,much                                                                    32:40
+enginewouldseemtoan                                                                                 19:20
+intelligentloweranimal.ThisIsMyAmazinglyLongStringToMakeYourExtractionOperatorWorkCorrectly.        92:100
+intelligentmechanisms?Suchathing                                                                    32:40
+theycouldbe.Werethey                                                                                20:40
+thingstohumanmachines,to                                                                            24:40
+timeinmylifehow                                                                                     15:20
+
+Total amount of strings constructed: 201
+Amount of strings currently alive: 16
+
+Press any key to continue . . .
+*/

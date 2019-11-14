@@ -51,20 +51,38 @@ LKString::LKString(const LKString & lkstr) {
 LKString& LKString::operator =(const LKString& lkstr) {
 	if (lkstr == *this)
 		return *this;
-	delete[] str;
-	str = new char[lkstr.cap];
-	for (end = 0; lkstr.str[end] != '\0'; end++) {
-		str[end] = lkstr.str[end];
+
+	for (end = 0; lkstr[end] != '\0'; end++) {}
+	cap = 20;
+	while (end >= cap) {
+		cap += 20;
 	}
+
+	delete[] str;
+	str = new char[cap];
+
+	for (int i = 0; i < end; i++) {
+		str[i] = lkstr.str[i];
+	}
+
 	str[end] = '\0';
 	return *this;
 }
 //An overload used in the read function.
 LKString& LKString::operator =(const char* userStr) { 
-	str = new char[cap];
-	for (end = 0; userStr[end] != '\0'; end++) {
-		str[end] = userStr[end];
+	for (end = 0; userStr[end] != '\0'; end++) {}
+	cap = 20;
+	while (end >= cap) {
+		cap += 20;
 	}
+
+	delete[]str;
+	str = new char[cap];
+
+	for (int i = 0; i < end; i++) {
+		str[i] = userStr[i];
+	}
+
 	str[end] = '\0';
 	return *this;
 }
@@ -74,7 +92,10 @@ LKString& LKString::operator +(const LKString& lkstr) {
 	//Finds out how long my string is gonna be
 		//might need to add 1 or 2 to this length or subtract or two
 	int newStrLength = end + lkstr.length();
-	char* tempStr= new char[newStrLength];
+	while (newStrLength > cap) {
+		cap += 20;
+	}
+	char* tempStr= new char[cap];
 
 	//copies this into it
 	int index = 0;
@@ -84,11 +105,12 @@ LKString& LKString::operator +(const LKString& lkstr) {
 
 	//copies the second string into it
 	for (; index < newStrLength; index++) {
-		tempStr[index] = lkstr[index];
+		tempStr[index] = lkstr[index - end];
 	}
 
 	delete[] str;
 	str = tempStr;
+	end = newStrLength;
 
 	return *this;
 }
@@ -109,8 +131,8 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 	}
 
 	bool gotStr = 0;
+	int letter = 0;
 	while (gotStr == false && !istrm.eof()) {
-		int letter = 0;
 		istrm.get(ch[letter]);
 		while (ch[letter] != ' ' && ch[letter] != '\n' && letter < 199) {
 			letter++;
@@ -133,9 +155,8 @@ ostream& operator <<(ostream& ostrm, LKString &lkstr) {
 		return ostrm;
 	}
 	
-	for (int i = 0; i < lkstr.length(); i++) {
-		ostrm << lkstr[i];
-	}
+	ostrm << lkstr.c_str();
+
 	return ostrm;
 }
 
