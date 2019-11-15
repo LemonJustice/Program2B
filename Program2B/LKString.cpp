@@ -7,7 +7,7 @@ static int currentCount = 0;
 
 LKString::LKString() {
 	str = new char[cap];
-	str = { '\0' };
+	str[0] = '\0';
 	createdCount++;
 	currentCount++;
 }
@@ -124,7 +124,7 @@ LKString& LKString::operator +(const LKString& lkstr) {
 
 //the issue probably lies here
 istream& operator >>(istream& istrm, LKString &lkstr) {
-	char ch[200] = {'\0'};
+	char ch[100] = {'\0'};
 	int index = 0;
 	
 	//Checking if input is valid and working, both for file and cin
@@ -142,19 +142,21 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 	while (gotStr == false && !istrm.eof()) {
 		istrm.get(ch[letter]);
 
-		while (ch[letter] != ' ' && ch[letter] != '\n' 
-			&& !ispunct(ch[letter]) && letter < 199) {
+		while (ch[letter] != ' ' && ch[letter] != '\n' &&
+			(!ispunct(ch[letter]) || ch[letter] == '\'') &&
+			letter < 99 && !istrm.eof()) {
 
 			letter++;
 			istrm.get(ch[letter]);
 		}
-		// Removes the space after the string ends
 		ch[letter] = '\0';
 		gotStr = true;
 
-		if (ch[0] == '\0' || ch[0] == '\n' || 
-			ch[0] == ' ' || ispunct(ch[0]))
+		if (ch[0] == '\0' || ch[0] == '\n' ||
+			ch[0] == ' ' || ispunct(ch[0])) {
+			
 			gotStr = false;
+		}
 	}
 	lkstr = ch;
 	return istrm;
