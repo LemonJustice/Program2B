@@ -14,6 +14,7 @@ public:
 	LKString& operator =(const char* argStr);
 	LKString& operator +(const LKString& lkstr);
 	bool operator ==(const LKString& lkstr) const;
+	bool operator !=(const LKString& lkstr) const;
 	bool operator >(const LKString& lkstr) const;
 	bool operator <(const LKString& lkstr) const;
 	char operator [](int index);

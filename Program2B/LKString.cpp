@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <cctype>
 #include "LKString.h"
 
 static int createdCount = 0;
@@ -17,11 +18,14 @@ LKString::LKString(const char* userStr) {
 		if (end + 1 >= cap)
 			cap += 20;
 	}
+
 	str = new char[cap];
 	*str = { '\0' };
+
 	for (int i = 0; i < end; i++) {
 		str[i] = userStr[i];
 	}
+
 	str[end] = '\0';
 	createdCount++;
 	currentCount++;
@@ -33,11 +37,14 @@ LKString::LKString(const LKString & lkstr) {
 		if (end + 1 >= cap)
 			cap += 20;
 	}
+
 	str = new char[cap];
 	*str = { '\0' };
+
 	for (int i = 0; i <= end; i++) {
 		str[i] = lkstr.at(i);
 	}
+
 	str[end] = '\0';
 	createdCount++;
 	currentCount++;
@@ -134,7 +141,10 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 	int letter = 0;
 	while (gotStr == false && !istrm.eof()) {
 		istrm.get(ch[letter]);
-		while (ch[letter] != ' ' && ch[letter] != '\n' && letter < 199) {
+
+		while (ch[letter] != ' ' && ch[letter] != '\n' 
+			&& !ispunct(ch[letter]) && letter < 199) {
+
 			letter++;
 			istrm.get(ch[letter]);
 		}
@@ -142,7 +152,8 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 		ch[letter] = '\0';
 		gotStr = true;
 
-		if (ch[0] == '\0' || ch[0] == '\n' || ch[0] == ' ')
+		if (ch[0] == '\0' || ch[0] == '\n' || 
+			ch[0] == ' ' || ispunct(ch[0]))
 			gotStr = false;
 	}
 	lkstr = ch;
@@ -167,6 +178,13 @@ bool LKString::operator ==(const LKString& lkstr) const  {
 		return false;
 }
 
+bool LKString::operator !=(const LKString& lkstr) const {
+	if (compareTo(lkstr) != 0)
+		return true;
+	else
+		return false;
+}
+
 bool LKString::operator >(const LKString& lkstr) const {
 	if (compareTo(lkstr) == 1)
 		return true;
@@ -181,19 +199,35 @@ bool LKString::operator <(const LKString& lkstr) const {
 		return false;
 }
 
-int LKString::compareTo(const LKString& argStr) const {
+int LKString::compareTo(const LKString& lkstr) const {
+	char LC_str[100];
+	for (int i = 0; i < length(); i++) {
+		if(this->at(i) >= 97 && this->at(i) <= 122)
+			LC_str[i] = this->at(i) - 32;
+		else
+			LC_str[i] = this->at(i);
+	}
+
+	char LC_lkstr[100];
+	for (int i = 0; i < lkstr.length(); i++) {
+		if (lkstr[i] >= 97 && lkstr[i] <= 122)
+			LC_lkstr[i] = lkstr[i] - 32;
+		else
+			LC_lkstr[i] = lkstr[i];
+	}
+
 	int i = 0;
 	while (true) {
 		//If they are equal
-		if (str[i] == '\0' && argStr.str[i] == '\0') {
+		if (LC_str[i] == '\0' && LC_lkstr[i] == '\0') {
 			return 0;
 		}
 		//if *this is bigger than the parameter
-		else if (str[i] > argStr.str[i] || argStr.str[i] == '\0') {
+		else if (LC_str[i] > LC_lkstr[i] || LC_lkstr[i] == '\0') {
 			return 1;
 		}
 		//if *this is smaller than the parameter
-		else if (str[i] < argStr.str[i] || str[i] == '\0') {
+		else if (LC_str[i] < LC_lkstr[i] || LC_str[i] == '\0') {
 			return -1;
 		}
 		i++;
