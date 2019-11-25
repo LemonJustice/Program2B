@@ -34,7 +34,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\..\Downloads\infile2.txt">
+    <Text Include="..\..\..\..\..\Downloads\infile2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="..\..\..\..\..\Downloads\infile1.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

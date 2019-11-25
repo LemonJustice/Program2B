@@ -12,19 +12,33 @@ using namespace std;
 
 int main()
 {
-	LKString str1("Hello");
-	LKString str2("hello");
-	LKString str3("Test");
-	LKString str4("DoesItWork?");
+	LinkedList list1, list2, modList1, modList2;
+	LKString input;
 
-	LinkedList dll;
+	ifstream file1;
+	file1.open("infile1.txt");
 
-	dll.insert(str1);
-	dll.insert(str2);
-	dll.insert(str3);
-	dll.insert(str4);
+	while (!file1.eof()) {
+		file1 >> input;
+		if (input == "a") {
+			int i = 0;
+		}
+		list1.insert(input);
+	}
+	file1.close();
 
-	cout << dll;
+	ifstream file2;
+	file2.open("infile2.txt");
+	while (!file2.eof()) {
+		file2 >> input;
+		list2.insert(input);
+	}
+	file2.close();
+
+	cout << list1 << "| count: " << list1.getCount() << endl;
+	cout << list2 << "| count: " << list2.getCount() << endl;
+	cout << modList1 << "| count: " << modList1.getCount() << endl;
+	cout << modList2 << "| count: " << modList2.getCount() << endl;
 }
 
 /*

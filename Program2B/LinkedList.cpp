@@ -12,7 +12,7 @@ Node::Node(LKString str) {
 
 
 LinkedList::LinkedList() {
-
+	count = 0;
 }
 
 LinkedList::LinkedList(const LinkedList& dll) {
@@ -63,8 +63,8 @@ ostream& operator <<(ostream& ostrm, LinkedList& dll) {
 	while (dll.hasMore()) {
 		ostrm << dll.next() << " ";
 	}
-	ostrm << dll.next() << " ";
-	ostrm << endl;
+	if(dll.hasMore())
+		ostrm << dll.next() << endl;
 	return ostrm;
 }
 
@@ -82,56 +82,7 @@ bool LinkedList::insert(const LKString& str) {
 	}
 
 	//Loop until the data in the next node is greater than the new data
-	while(hasMore()) {
-		
-		if (str == next()) {
-			//Already has value, so exit
-			resetIteration();
-			return false;
-		}
-		else if (str < head->data) {
-			
-			//Placing at front of the list
-			head->prev = insertNode;
-			insertNode->next = head;
-			head = insertNode;
-
-			count++;
-			resetIteration();
-			return true;
-		}
-		else if (str < next()) {
-			
-			//Perhaps my next function hinders me
-				//It iterates the it pointer, but comparison is done with previous string
-				//Therefore, step back twice for real previous value?
-			Node* prevNode = it->prev->prev;
-
-			//Stepping back prev for better comprehension
-			it = it->prev;
-
-			//Linked insertNode with prevNode
-			prevNode->next = insertNode;
-			insertNode->prev = prevNode;
-
-			//Finishing the other side of the insert
-			insertNode->next = it;
-			it->prev = insertNode;
-
-			count++;
-			resetIteration();
-			return true;
-		}
-	}
 	
-	//Has to be at the end of list
-	tail->next = insertNode;
-	insertNode->prev = tail;
-	tail = insertNode;
-
-	count++;
-	resetIteration();
-	return true;
 }
 
 bool LinkedList::remove(const LKString& str) {
@@ -189,17 +140,18 @@ void LinkedList::resetIteration() const {
 }
 
 LKString& LinkedList::next() const {
-	if (it != nullptr) {
-		if (!hasMore())
-			return it->data;
+	if (hasMore()) {
 		it = it->next;
 		return it->prev->data;
+	}
+	else {
+		return it->data;
 	}
 }
 
 bool LinkedList::hasMore() const {
 	//Ensures that list isn't empty before checking for more values
-	if (head != nullptr && it != nullptr) //JUST CHANGED THIS
+	if (head != nullptr && it->next != nullptr) //JUST CHANGED THIS
 		return true;
 	return false;
 }

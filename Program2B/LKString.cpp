@@ -90,7 +90,7 @@ LKString& LKString::operator =(const char* userStr) {
 		str[i] = userStr[i];
 	}
 
-	str[end] = '\0';
+	str[end + 1] = '\0';
 	return *this;
 }
 
@@ -158,7 +158,7 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 			gotStr = false;
 		}
 	}
-	lkstr = ch;
+	lkstr = ch + '\0';
 	return istrm;
 }
 
@@ -219,7 +219,7 @@ int LKString::compareTo(const LKString& lkstr) const {
 	}
 
 	int i = 0;
-	while (true) {
+	while (LC_str[i] != '\0' && LC_lkstr[i] != '\0') {
 		//If they are equal
 		if (LC_str[i] == '\0' && LC_lkstr[i] == '\0') {
 			return 0;
