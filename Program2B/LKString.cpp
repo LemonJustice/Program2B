@@ -122,7 +122,6 @@ LKString& LKString::operator +(const LKString& lkstr) {
 	return *this;
 }
 
-//the issue probably lies here
 istream& operator >>(istream& istrm, LKString &lkstr) {
 	char ch[100] = {'\0'};
 	int index = 0;
@@ -249,7 +248,7 @@ const char* LKString::c_str() const {
 char LKString::at(int index) const  {
 	if (this == nullptr)
 		return '\0';
-	if (index < end && index >= 0)
+	else if(end != 0 && index < end && index >= 0)
 		return str[index];
 	else
 		return '\0';

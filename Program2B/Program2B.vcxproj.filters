@@ -40,5 +40,14 @@
     <Text Include="..\..\..\..\..\Downloads\infile1.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="consoleOutput.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="outfile1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="outfile2.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -162,6 +162,9 @@
   <ItemGroup>
     <Text Include="..\..\..\..\..\Downloads\infile1.txt" />
     <Text Include="..\..\..\..\..\Downloads\infile2.txt" />
+    <Text Include="consoleOutput.txt" />
+    <Text Include="outfile1.txt" />
+    <Text Include="outfile2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

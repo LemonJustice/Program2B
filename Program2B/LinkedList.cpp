@@ -45,6 +45,7 @@ LinkedList& LinkedList::operator =(const LinkedList& dll) {
 		}
 		else {
 			it->next = new Node(dll.next());
+			it->next->prev = it;
 			it = it->next;
 		}
 		count++;
@@ -56,6 +57,7 @@ LinkedList& LinkedList::operator =(const LinkedList& dll) {
 
 ostream& operator <<(ostream& ostrm, LinkedList& dll) {
 	dll.resetIteration();
+	dll.remove("");
 	if (ostrm.fail()) {
 		ostrm << "The output seems to be corrupted!" << endl;
 		return ostrm;
@@ -65,6 +67,7 @@ ostream& operator <<(ostream& ostrm, LinkedList& dll) {
 		LKString temp(dll.next());
 		ostrm << temp << " ";
 	}
+	dll.resetIteration();
 	return ostrm;
 }
 
@@ -74,6 +77,7 @@ bool LinkedList::insert(const LKString& str) {
 	//Check to make sure it isn't empty
 	if (head == nullptr) {
 		head = insertNode;
+		head->prev = nullptr;
 		it = head;
 		tail = head;
 
@@ -93,6 +97,7 @@ bool LinkedList::insert(const LKString& str) {
 			head->prev = insertNode;
 			insertNode->next = head;
 			head = insertNode;
+			head->prev = nullptr;
 
 			count++;
 			resetIteration();
@@ -124,15 +129,19 @@ bool LinkedList::insert(const LKString& str) {
 	}
 
 	//Has to be at the end of list
-	tail->next = insertNode;
-	insertNode->prev = tail;
-	tail = insertNode;
+	if (str != tail->data) {
+		tail->next = insertNode;
+		insertNode->prev = tail;
+		tail = insertNode;
+		tail->next = nullptr;
 
-	count++;
-	resetIteration();
-	return true;
+		count++;
+		resetIteration();
+		return true;
+	}
 	//Loop until the data in the next node is greater than the new data
-	
+	resetIteration();
+	return false;
 }
 
 bool LinkedList::remove(const LKString& str) {
@@ -140,16 +149,26 @@ bool LinkedList::remove(const LKString& str) {
 	if (head == nullptr) {
 		return false;
 	}
-	while (hasMore()) {
-		if (str == head->data) {
-			head = head->next;
-			delete head->prev;
+	if (str == head->data) {
+		head = head->next;
+		delete head->prev;
+		head->prev = nullptr;
 
-			count--;
-			resetIteration();
-			return true;
-		}
-		else if (str == next()) {
+		count--;
+		resetIteration();
+		return true;
+	}
+	else if (str == tail->data) {
+		tail = tail->prev;
+		delete tail->next;
+		tail->next = nullptr;
+
+		count--;
+		resetIteration();
+		return true;
+	}
+	while (hasMore()) {
+		if (str == next()) {
 			//Step back twice for real previous value?
 			Node* prevNode = it->prev->prev;
 			//Keep "it" at the incremented value
@@ -163,18 +182,7 @@ bool LinkedList::remove(const LKString& str) {
 			return true;
 		}
 	}
-	
-	//Maybe the tail holds the search string
-
-	//There is a problem with the tail pointer: it is null when it shouldn't be
-	if (str == tail->data) {
-		tail = tail->prev;
-		delete tail->next;
-
-		count--;
-		resetIteration();
-		return true;
-	}
+	resetIteration();
 	return false;
 }
 
