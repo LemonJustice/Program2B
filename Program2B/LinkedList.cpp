@@ -50,6 +50,7 @@ LinkedList& LinkedList::operator =(const LinkedList& dll) {
 		count++;
 	}
 	tail = it;
+	dll.resetIteration();
 	return *this;
 }
 
@@ -61,10 +62,9 @@ ostream& operator <<(ostream& ostrm, LinkedList& dll) {
 	}
 
 	while (dll.hasMore()) {
-		ostrm << dll.next() << " ";
+		LKString temp(dll.next());
+		ostrm << temp << " ";
 	}
-	if(dll.hasMore())
-		ostrm << dll.next() << endl;
 	return ostrm;
 }
 
@@ -80,7 +80,57 @@ bool LinkedList::insert(const LKString& str) {
 		count++;
 		return true;
 	}
+	LKString nextStr(next());
+	while (hasMore()) {
+		if (str == nextStr) {
+			//Already has value, so exit
+			resetIteration();
+			return false;
+		}
+		else if (str < head->data) {
 
+			//Placing at front of the list
+			head->prev = insertNode;
+			insertNode->next = head;
+			head = insertNode;
+
+			count++;
+			resetIteration();
+			return true;
+		}
+		else if (str < nextStr) {
+
+			//Perhaps my next function hinders me
+				//It iterates the it pointer, but comparison is done with previous string
+				//Therefore, step back twice for real previous value?
+			Node* prevNode = it->prev->prev;
+
+			//Stepping back prev for better comprehension
+			it = it->prev;
+
+			//Linked insertNode with prevNode
+			prevNode->next = insertNode;
+			insertNode->prev = prevNode;
+
+			//Finishing the other side of the insert
+			insertNode->next = it;
+			it->prev = insertNode;
+
+			count++;
+			resetIteration();
+			return true;
+		}
+		nextStr = next();
+	}
+
+	//Has to be at the end of list
+	tail->next = insertNode;
+	insertNode->prev = tail;
+	tail = insertNode;
+
+	count++;
+	resetIteration();
+	return true;
 	//Loop until the data in the next node is greater than the new data
 	
 }
@@ -92,7 +142,6 @@ bool LinkedList::remove(const LKString& str) {
 	}
 	while (hasMore()) {
 		if (str == head->data) {
-			head->next->prev = head;
 			head = head->next;
 			delete head->prev;
 
@@ -105,9 +154,6 @@ bool LinkedList::remove(const LKString& str) {
 			Node* prevNode = it->prev->prev;
 			//Keep "it" at the incremented value
 
-			//removing selected string
-			delete it->prev;
-
 			//Linking the remaining nodes
 			prevNode->next = it;
 			it->prev = prevNode;
@@ -119,8 +165,9 @@ bool LinkedList::remove(const LKString& str) {
 	}
 	
 	//Maybe the tail holds the search string
+
+	//There is a problem with the tail pointer: it is null when it shouldn't be
 	if (str == tail->data) {
-		tail->prev->next = tail;
 		tail = tail->prev;
 		delete tail->next;
 
@@ -140,18 +187,20 @@ void LinkedList::resetIteration() const {
 }
 
 LKString& LinkedList::next() const {
-	if (hasMore()) {
-		it = it->next;
-		return it->prev->data;
-	}
-	else {
-		return it->data;
-	}
+	LKString* temp = new LKString(it->data);
+	it = it->next;
+	return *temp;
+}
+
+LKString& LinkedList::prev() const {
+	LKString* temp = new LKString(it->data);
+	it = it->prev;
+	return *temp;
 }
 
 bool LinkedList::hasMore() const {
 	//Ensures that list isn't empty before checking for more values
-	if (head != nullptr && it->next != nullptr) //JUST CHANGED THIS
+	if (it != nullptr) //JUST CHANGED THIS
 		return true;
 	return false;
 }

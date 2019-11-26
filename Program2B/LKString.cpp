@@ -247,6 +247,8 @@ const char* LKString::c_str() const {
 }
 
 char LKString::at(int index) const  {
+	if (this == nullptr)
+		return '\0';
 	if (index < end && index >= 0)
 		return str[index];
 	else

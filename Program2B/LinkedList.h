@@ -37,6 +37,7 @@ public:
 
 	void resetIteration() const;
 	LKString& next() const;
+	LKString& prev() const;
 	bool hasMore() const;
 
 	int getCount() const;
