@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="LKString.cpp" />
     <ClCompile Include="Program2B.cpp" />
   </ItemGroup>
