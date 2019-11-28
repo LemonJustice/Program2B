@@ -10,11 +10,11 @@
 
 using namespace std;
 
-
-void changer(LinkedList dll);
+template<typename T>
+void changer(LinkedList<T> dll);
 int main()
 {
-	LinkedList list1, list2, modList1, modList2;
+	LinkedList<LKString> list1, list2, modList1, modList2;
 	LKString input;
 
 	ifstream file1;
@@ -117,12 +117,30 @@ int main()
 	}
 	fout.close();
 
+	cout << "trying other types of lists!\n\n";
+
+	LinkedList<int> intList;
+	for (int i = 20; i > 0; i -= 2)
+		intList.insert(i);
+
+	for (int i = 25; i > 0; i -= 5)
+		intList.insert(i);
+
+	cout << "intlist: " << intList << "  size:" << intList.getCount() << endl << endl;
+
+	LinkedList<double> dblList;
+	for (double i = 10.9; i > 0; i -= .57)
+		dblList.insert(i);
+
+	cout << "dblList: " << dblList << "  size:" << dblList.getCount() << endl << endl;
 }
 
-void changer(LinkedList dll) {
+template<typename T>
+void changer(LinkedList<T> dll) {
 	dll.insert("ZIP");
 	dll.insert("ZAP");
-	cout << "This size of the list within changer(): " << dll.getCount() << endl;
+	cout << "This size of the list within changer(): " << dll.getCount()
+		<< endl << endl;
 }
 
 

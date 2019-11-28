@@ -1,11 +1,7 @@
 #pragma once
 #include "LKString.h"
-#include "Node.h"
 #include <ostream>
 using namespace std;
-
-#ifndef NODE_H
-#define NODE_H
 
 template <typename T>
 class Node {
@@ -14,7 +10,7 @@ public:
 		next = nullptr;
 		prev = nullptr;
 	}
-	template <typename T>
+
 	Node(T t) {
 		data = t;
 	}
@@ -23,13 +19,12 @@ public:
 	Node* next = nullptr;
 	Node* prev = nullptr;
 };
-#endif
 
 #pragma once
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-
+template <typename T>
 class LinkedList {
 public:
 	LinkedList();
@@ -37,46 +32,48 @@ public:
 
 	LinkedList& operator =(const LinkedList& dll);
 
-	bool insert(const LKString& str);
-	bool remove(const LKString& str);
+	bool insert(const T& str);
+	bool remove(const T& str);
 
 	void resetIteration() const;
-	LKString& next() const;
-	LKString& prev() const;
+	T& next() const;
+	T& prev() const;
 	bool hasMore() const;
 
 	int getCount() const;
 
 	~LinkedList();
 private:
-	Node* head;
-	Node* tail;
-	mutable Node* it;
+	Node<T>* head = nullptr;
+	Node<T>* tail = nullptr;
+	mutable Node<T>* it = nullptr;
 	int count = 0;
 };
 
-ostream& operator <<(ostream& ostrm, LinkedList& dll);
+template <typename T>
+ostream& operator <<(ostream& ostrm, LinkedList<T>& dll);
 
 #endif
 
-
-LinkedList::LinkedList() {
+template <typename T>
+LinkedList<T>::LinkedList() {
 	count = 0;
 }
 
-LinkedList::LinkedList(const LinkedList& dll) {
+template <typename T>
+LinkedList<T>::LinkedList(const LinkedList<T>& dll) {
 	//reset count
 	count = 0;
 	dll.resetIteration(); //reassurance for now
 	while (dll.hasMore()) {
 		//handles case of head
 		if (count == 0) {
-			head = new Node(dll.next());
+			head = new Node<T>(dll.next());
 			it = head;
 		}
 		else {
 			//literally every other case
-			it->next = new Node(dll.next());
+			it->next = new Node<T>(dll.next());
 			it = it->next;
 		}
 		count++;
@@ -84,16 +81,17 @@ LinkedList::LinkedList(const LinkedList& dll) {
 	tail = it;
 }
 
-LinkedList& LinkedList::operator =(const LinkedList& dll) {
+template <typename T>
+LinkedList<T>& LinkedList<T>::operator =(const LinkedList<T>& dll) {
 	count = 0;
 	dll.resetIteration(); //reassurance for now
 	while (dll.hasMore()) {
 		if (count == 0) {
-			head = new Node(dll.next());
+			head = new Node<T>(dll.next());
 			it = head;
 		}
 		else {
-			it->next = new Node(dll.next());
+			it->next = new Node<T>(dll.next());
 			it->next->prev = it;
 			it = it->next;
 		}
@@ -104,24 +102,25 @@ LinkedList& LinkedList::operator =(const LinkedList& dll) {
 	return *this;
 }
 
-ostream& operator <<(ostream& ostrm, LinkedList& dll) {
+template <typename T>
+ostream& operator <<(ostream& ostrm, LinkedList<T>& dll) {
 	dll.resetIteration();
-	dll.remove("");
 	if (ostrm.fail()) {
 		ostrm << "The output seems to be corrupted!" << endl;
 		return ostrm;
 	}
 
 	while (dll.hasMore()) {
-		LKString temp(dll.next());
+		T temp(dll.next());
 		ostrm << temp << " ";
 	}
 	dll.resetIteration();
 	return ostrm;
 }
 
-bool LinkedList::insert(const LKString& str) {
-	Node* insertNode = new Node(str);
+template <typename T>
+bool LinkedList<T>::insert(const T& str) {
+	Node<T>* insertNode = new Node<T>(str);
 
 	//Check to make sure it isn't empty
 	if (head == nullptr) {
@@ -133,7 +132,7 @@ bool LinkedList::insert(const LKString& str) {
 		count++;
 		return true;
 	}
-	LKString nextStr(next());
+	T nextStr(next());
 	while (hasMore()) {
 		if (str == nextStr) {
 			//Already has value, so exit
@@ -157,7 +156,7 @@ bool LinkedList::insert(const LKString& str) {
 			//Perhaps my next function hinders me
 				//It iterates the it pointer, but comparison is done with previous string
 				//Therefore, step back twice for real previous value?
-			Node* prevNode = it->prev->prev;
+			Node<T>* prevNode = it->prev->prev;
 
 			//Stepping back prev for better comprehension
 			it = it->prev;
@@ -193,7 +192,8 @@ bool LinkedList::insert(const LKString& str) {
 	return false;
 }
 
-bool LinkedList::remove(const LKString& str) {
+template <typename T>
+bool LinkedList<T>::remove(const T& str) {
 	//Check to make sure it isn't empty
 	if (head == nullptr) {
 		return false;
@@ -219,7 +219,7 @@ bool LinkedList::remove(const LKString& str) {
 	while (hasMore()) {
 		if (str == next()) {
 			//Step back twice for real previous value?
-			Node* prevNode = it->prev->prev;
+			Node<T>* prevNode = (it->prev->prev);
 			//Keep "it" at the incremented value
 
 			//Linking the remaining nodes
@@ -237,24 +237,28 @@ bool LinkedList::remove(const LKString& str) {
 
 //ITERATION HELPERS
 
-void LinkedList::resetIteration() const {
+template <typename T>
+void LinkedList<T>::resetIteration() const {
 	if (head != nullptr)
 		it = head;
 }
 
-LKString& LinkedList::next() const {
-	LKString* temp = new LKString(it->data);
+template <typename T>
+T& LinkedList<T>::next() const {
+	T* temp = new T(it->data);
 	it = it->next;
 	return *temp;
 }
 
-LKString& LinkedList::prev() const {
-	LKString* temp = new LKString(it->data);
+template <typename T>
+T& LinkedList<T>::prev() const {
+	T* temp = new T(it->data);
 	it = it->prev;
 	return *temp;
 }
 
-bool LinkedList::hasMore() const {
+template <typename T>
+bool LinkedList<T>::hasMore() const {
 	//Ensures that list isn't empty before checking for more values
 	if (it != nullptr) //JUST CHANGED THIS
 		return true;
@@ -263,10 +267,12 @@ bool LinkedList::hasMore() const {
 
 //PUBLIC ACCESSORS 
 
-int LinkedList::getCount() const {
+template <typename T>
+int LinkedList<T>::getCount() const {
 	return count;
 }
 
-LinkedList::~LinkedList() {
+template <typename T>
+LinkedList<T>::~LinkedList() {
 
 }

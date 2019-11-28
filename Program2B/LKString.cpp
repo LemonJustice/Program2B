@@ -157,7 +157,9 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 			gotStr = false;
 		}
 	}
-	lkstr = ch + '\0';
+	if (ch[0] != '\0') {
+		lkstr = ch;
+	}
 	return istrm;
 }
 
