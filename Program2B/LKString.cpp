@@ -161,7 +161,7 @@ istream& operator >>(istream& istrm, LKString &lkstr) {
 		lkstr = ch;
 	}
 	return istrm;
-}
+} 
 
 ostream& operator <<(ostream& ostrm, LKString &lkstr) {
 	if (ostrm.fail()) {

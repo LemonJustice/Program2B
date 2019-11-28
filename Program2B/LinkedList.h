@@ -116,7 +116,7 @@ ostream& operator <<(ostream& ostrm, LinkedList<T>& dll) {
 	}
 	dll.resetIteration();
 	return ostrm;
-}
+} 
 
 template <typename T>
 bool LinkedList<T>::insert(const T& str) {
