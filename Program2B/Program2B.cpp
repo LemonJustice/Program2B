@@ -1,4 +1,4 @@
-// Class Name: LKString: Program 5: Lists 
+// Class Name: LKString: Program 7: Template
 // Author: Liam Kikuchi
 // Section: S
 // Description: The same as the previous list class,
