@@ -1,4 +1,4 @@
-// Class Name: LKString: Program 5: Lists 
+// Class Name: LKString: Program 4: Lists 
 // Author: Liam Kikuchi
 // Section: S
 // Description: The class uses a previously made string class
