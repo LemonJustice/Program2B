@@ -1,7 +1,11 @@
 // Class Name: LKString: Program 5: Lists 
 // Author: Liam Kikuchi
 // Section: S
-// Description:
+// Description: The class uses a previously made string class
+// to store strings obtained from file. These strings are put
+// into a list and ordered alphabetically. There are two
+// lists, one for each file, which are used to make two other
+// lists that lack words found within the opposite list.
 
 #include <iostream>
 #include <iomanip>
