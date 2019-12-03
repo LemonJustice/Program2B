@@ -1,7 +1,10 @@
 // Class Name: LKString: Program 5: Lists 
 // Author: Liam Kikuchi
 // Section: S
-// Description:
+// Description: The same as the previous list class,
+// but modified to make lists of different data
+// types. In addition to the string list, it makes
+// a int and double list.
 
 #include <iostream>
 #include <iomanip>
