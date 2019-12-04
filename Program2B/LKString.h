@@ -1,4 +1,10 @@
 #pragma once
+// Class Name: LKString: Program 4: Lists 
+// Author: Liam Kikuchi
+// Section: S
+// Description: Class imitating strings through way of
+// cstrings. Also contains ways to use operators with it.
+// Dynamically grows to fit needed length.
 #include <istream>
 using namespace std;
 #ifndef LKSTRING_H

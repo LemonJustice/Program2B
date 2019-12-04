@@ -1,4 +1,11 @@
 #pragma once
+// Class Name: LKString: Program 4: Lists 
+// Author: Liam Kikuchi
+// Section: S
+// Description: Doubly Linked List that stores string values
+// alphabetically, with the ability to remove a specific 
+// string
+
 #include "LKString.h"
 #include "Node.h"
 #include <ostream>
