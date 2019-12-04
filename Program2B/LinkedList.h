@@ -1,4 +1,11 @@
 #pragma once
+// Class Name: LKString: Program 7: Template
+// Author: Liam Kikuchi
+// Section: S
+// Description: The same as the previous list class,
+// but modified to make lists of different data
+// types, as it has been converted to a template
+
 #include "LKString.h"
 #include <ostream>
 using namespace std;

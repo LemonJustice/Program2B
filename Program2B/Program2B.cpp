@@ -6,6 +6,8 @@
 // types. In addition to the string list, it makes
 // a int and double list.
 
+// Main is a test to make sure the template works.
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
