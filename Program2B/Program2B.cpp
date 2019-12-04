@@ -37,33 +37,25 @@ int main()
 	}
 	file2.close();
 
-	cout << list1 << "\n_________________________________________________\n"
-		<< "^ list1 count from infile1: ";
+	cout << "list1 count from infile1: ";
 	cout << list1.getCount() << endl << endl;
 
-	cout << list2 << "\n_________________________________________________\n"
-		<< "^ list2 count from infile2: ";
+	cout << "list2 count from infile2: ";
 	cout << list2.getCount() << endl << endl;
 
-	cout << modList1 << "\n_________________________________________________\n"
-		<< "^ modList1 count: " << modList1.getCount() << endl << endl;
-	cout << modList2 << "\n_________________________________________________\n"
-		<< "^ modList2 count: " << modList2.getCount() << endl << endl;
+	cout << "modList1 count: " << modList1.getCount() << endl << endl;
+	cout << "modList2 count: " << modList2.getCount() << endl << endl;
 
 	cout << "Now using assignment operator \n\n";
 
 	modList1 = list1;
 	modList2 = list2;
 
-	cout << list1 << "\n_________________________________________________\n"
-		<< "^ list1 count from infile1: " << list1.getCount() << endl << endl;
-	cout << list2 << "\n_________________________________________________\n"
-		<< "^ list2 count from infile2: " << list2.getCount() << endl << endl;
-	cout << modList1 << "\n_________________________________________________\n"
-		<< "^ modList1 count after copying list1: " 
+	cout << "list1 count from infile1: " << list1.getCount() << endl << endl;
+	cout << "list2 count from infile2: " << list2.getCount() << endl << endl;
+	cout << "modList1 count after copying list1: " 
 		<< modList1.getCount() << endl << endl;
-	cout << modList2 << "\n_________________________________________________\n"
-		<< "^ modList2 count after copying list2: " 
+	cout << "modList2 count after copying list2: " 
 		<< modList2.getCount() << endl << endl;
 
 	cout << "Now removing elements in modLists\n\n";
@@ -79,31 +71,23 @@ int main()
 		modList2.remove(test);
 	}
 
-	cout << list1 << "\n_________________________________________________\n"
-		<< "^ list1 count from infile1: " << list1.getCount() << endl << endl;
-	cout << list2 << "\n_________________________________________________\n"
-		<< "^ list2 count from infile2: " << list2.getCount() << endl << endl;
-	cout << modList1 << "\n_________________________________________________\n"
-		<< "^ modList1 count after removing matching items from list2: " 
+	cout << "list1 count from infile1: " << list1.getCount() << endl << endl;
+	cout << "list2 count from infile2: " << list2.getCount() << endl << endl;
+	cout << "modList1 count after removing matching items from list2: " 
 		<< modList1.getCount() << endl << endl;
-	cout << modList2 << "\n_________________________________________________\n"
-		<< "^ modList2 count after removing matching items from list1: " 
+	cout << "modList2 count after removing matching items from list1: " 
 		<< modList2.getCount() << endl << endl;
 
 	cout << "----------Now calling the changer function-----------\n" 
 		<< "--------In the order of modList1 then modList2----------\n\n";
 	
-	cout << list1 << "\n_________________________________________________\n"
-		<< "^ list1 count from infile1: " << list1.getCount() << endl << endl;
-	cout << list2 << "\n_________________________________________________\n"
-		<< "^ list2 count from infile2: " << list2.getCount() << endl << endl;
+	cout << "list1 count from infile1: " << list1.getCount() << endl << endl;
+	cout << "list2 count from infile2: " << list2.getCount() << endl << endl;
 	changer(modList1);
-	cout << modList1 << "\n_________________________________________________\n"
-		<< "^ modList1 count after calling changer(): "
+	cout << "modList1 count after calling changer(): "
 		<< modList1.getCount() << endl << endl;
 	changer(modList2);
-	cout << modList2 << "\n_________________________________________________\n"
-		<< "^ modList2 count after calling changer(): "
+	cout << "modList2 count after calling changer(): "
 		<< modList2.getCount() << endl << endl;
 
 	ofstream fout;
